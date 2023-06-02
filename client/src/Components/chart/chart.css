@@ -1,0 +1,55 @@
+.chart{
+    height: 300px;
+    width: 85%;
+    overflow-x: scroll;
+    margin: auto;
+    background: #ffff;
+    display: flex;
+    justify-content: center;
+    scroll-behavior: smooth;
+    position: relative;
+}
+.nightFilter{ 
+    left: 0;
+    height: 282px;
+    width: 450px;
+    background: #525252;
+}
+.dayFilter{
+    left: 0;
+    height: 282px;
+    width: 750px;
+    background: #ffff;
+}
+.d3_canvas{
+    position: relative;
+    width: 4000px;
+    bottom: 0;
+    left: 0;
+}
+.sunLevel{
+    position: absolute;
+    bottom: 0;
+}
+.tideLevel{
+    position: absolute;
+    bottom: 0;
+
+}
+.chart_title{
+    position: fixed;
+    display: flex;
+    gap: 5px; 
+    padding: 10px;
+}
+.chart_measure{
+    background-image: linear-gradient(#fff,#bbbfc3);
+    position: fixed;
+    height: 180px;
+    width: 2px;
+    margin-top: 84px;
+}
+.chart_time{
+    position: fixed;
+    margin-top: 262px;
+}
