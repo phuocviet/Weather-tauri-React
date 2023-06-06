@@ -1,62 +1,90 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import './chart.css'
-import * as d3 from 'd3';
-import { chartdata } from '../../Data/chartData';
+import { 
+        height, 
+        minWidth, 
+        pathOfsunLine, 
+        pathOftideLine } from '../../Data/chartData';
+import {gsap} from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(MotionPathPlugin, ScrollTrigger);
 
 const D3Chart = () => {
-    const [data] = useState([25,30,45,60,20,0,25,30,45,60,20])
-    const [data2] = useState([10,30,45,0,20,0,25,10,45,10,20])
-    const svgRef = useRef()
-    const svgRef2 = useRef()
-    useEffect(()=>{
+    const [moonIsHidden, setMoonIsHidden] = useState(true)
+    const [ time, setTime ] = useState("")
+    
+     useEffect(()=>{
         
-        const svg =d3.select(svgRef.current) 
-        const svg2 =d3.select(svgRef2.current)
-        const xScale = d3.scaleLinear()
-            .domain([0, data.length -1])
-            .range([0,900])
-        const yScale = d3.scaleLinear()
-            .domain([0, 400])
-            .range([400, 0])
-        const myLine = d3.line()
-            .x((value, index) => xScale(index) )
-            .y(yScale)
-            .curve(d3.curveCardinal)
-        svg.selectAll(".line")
-            .data([data])
-            .join("path")
-            .attr("d",value => myLine(value))
-            .attr("fill","none")
-            .attr("stroke", "orange");
-        const secondLine = d3.line()
-            .x((value, index) => index * 900 )
-            .y(value => value)
-            .curve(d3.curveCardinal)
-        svg2.selectAll("path")
-            .data([data2])
-            .join("path")
-            .attr("d",value => secondLine(value))
-            .attr("fill","cyan")
-            .attr("stroke", "cyan")
-            .attr("opacity", ".6")
-
-    },[data,data2])
-    // <div className='nightFilter'></div>
-    //     <div className='dayFilter'></div>
-    //     <div className='nightFilter'></div>
+        gsap.to("#sun",{
+            duration: 5,
+            repeat: 12,
+            repeatDelay:3,
+            yoyo: true,
+            ease: "power1.inOut",
+            motionPath:{
+                path: "#motionPath",
+                align: "#motionPath",
+                autoRotate: true,
+                alignOrigin: [0.5, 0.5]
+            }
+        })
+    },[])
+    
   return (
     <div className='chart'>
+        {/* <div className='nightFilter'></div> */}
         <div className='d3_canvas'>
-            <svg ref={svgRef} className='sunLevel'/>
-            <svg ref={svgRef2} className='tideLevel'/>
+            <svg height={height} width={12 * minWidth}>
+                <g>
+                    <path 
+                    fill="#c1e5f7" 
+                    stroke="none" 
+                    d={pathOftideLine}/>
+                </g>
+                <g>
+                    <path 
+                    id="motionPath"
+                    fill="none" 
+                    stroke="orange" 
+                    d={pathOfsunLine}/>
+                </g>
+                <g>
+                    <circle
+                    id="moon"
+                    fill="#7988A2"
+                    r={15}
+                    // style={{
+                    //     display: `${moonIsHidden ? "none" : "block"}`,
+                    // }}
+                    />
+                </g>
+                <g>
+                    <circle
+                    id='sun'
+                    fill="#fcdb33"
+                    r={15}
+                    // style={{
+                    //     display: `${moonIsHidden ? "block": "none"}`,
+                    // }}
+                    />
+                </g>
+                <g>
+                    <circle
+                        fill='none'
+                        stroke='orange'
+                    />
+                </g>
+            </svg>
         </div>
         <div className='chart_title'>
-            <h5>Tide</h5>
+            <h5 className='chart_titleTide'>Tide</h5>
             <span>•</span>
-            <h5>Sunrise & Sunset</h5>
+            <h5 className='chart_titleSun'>Sunrise & Sunset</h5>
         </div>
         <div className='chart_measure'></div>
         <div className='chart_time'>07.00 am</div>
+
     </div>
   )
 }

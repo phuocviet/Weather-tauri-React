@@ -2,6 +2,7 @@
     height: 300px;
     width: 85%;
     overflow-x: scroll;
+    /* overflow-y: hidden; */
     margin: auto;
     background: #ffff;
     display: flex;
@@ -11,9 +12,10 @@
 }
 .nightFilter{ 
     left: 0;
+    position: absolute;
     height: 282px;
-    width: 450px;
-    background: #525252;
+    width: 490px;
+    background: #797979;
 }
 .dayFilter{
     left: 0;
@@ -38,9 +40,16 @@
 }
 .chart_title{
     position: fixed;
+    margin-right: 550px;
     display: flex;
     gap: 5px; 
     padding: 10px;
+}
+.chart_titleTide{
+    color: #81d2fa;
+}
+.chart_titleSun{
+    color: orange;
 }
 .chart_measure{
     background-image: linear-gradient(#fff,#bbbfc3);
