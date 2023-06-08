@@ -1,7 +1,7 @@
-import { area, curveBasis, curveCardinal, line } from "d3";
-import * as d3 from "d3"
-export const minWidth = window.innerWidth /2
-export const height = (window.innerHeight *40) / 100;
+
+export const minWidth = 400
+export const height = (window.innerHeight *30) / 100;
+
 export const chartData = [
     {
       tide: 2,
@@ -69,8 +69,29 @@ export const chartData = [
       x: minWidth * 12,
     },
   ];
-
-export const ySunLevel = [0, 2, 0, -2, 0, 2, 0, -2, 0, 2, 0]
+export const nightTime = [
+  {
+    x: 0,
+    h: height,
+    w: minWidth
+  },
+  {
+    x: minWidth * 3,
+    h: height,
+    w: minWidth * 2
+  },
+  {
+    x: minWidth * 7,
+    h: height,
+    w: minWidth * 2
+  },
+  {
+    x: minWidth *11,
+    h: height,
+    w: minWidth
+  },
+]
+export const ySunLevel = [ 0, 2, 0, -2, 0, 2, 0, -2, 0, 2, 0]
 export const xSunLevel = [
     minWidth,
     minWidth * 2,
@@ -98,32 +119,21 @@ export const xTideLevel = [
     minWidth * 10,
     minWidth * 11,
     minWidth * 12
-]
-const sunLevelPoint = xSunLevel.map((x,i)=>{
-    return {
-        x: x,
-        y: height - ySunLevel[i] * 100
-    }
-})
-const sunGen = line()
-.x((p)=>p.x)
-.y((p)=>p.y)
-.curve(curveCardinal)
+];
 
-const tideLevelPoint = xTideLevel.map((x,i)=>{
-    return{
-        x: x,
-        y: height - chartData[i].tide * 80
-    }
-})
-// const xScale = d3.scaleLinear.range([0, minWidth])
-// export const xAxis = d3.axisBottom(xScale)
+export const formatTime = (time) => {
+  const fmTime = time % 24 
+  const decimal = fmTime % 1
+  const hr = Math.floor(fmTime)
+  const min = Math.floor(60 * decimal)
+  if (hr > 12){
+    return `${hr -12}:${min>10? "" : "0"}${min}pm`
+  }else if(hr === 0){
+    return `${12}:${min > 10 ? "" : "0"}${min} pm`;
+  }
+  return `${hr}:${min > 10 ? "" : "0"}${min} am`;
+};
 
-const tideGen = area()
-.x((p)=>p.x)
-.y1((p)=>p.y)
-.y0(height)
-.curve(curveBasis)
-
-export const pathOfsunLine = sunGen(sunLevelPoint)
-export const pathOftideLine = tideGen(tideLevelPoint)
+export const convertScrollToTime = (scrollPercent) => {
+  return scrollPercent * 60 + 6;
+};

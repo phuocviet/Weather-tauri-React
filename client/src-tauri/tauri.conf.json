@@ -56,10 +56,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
-        "resizable": true,
-        "title": "OpenWeather",
-        "width": 800
+        "width": 800,
+        "height": 700,
+        "resizable": false,
+        "title": "OpenWeather"
+        
       }
     ]
   }
